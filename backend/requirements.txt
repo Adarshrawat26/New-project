@@ -7,3 +7,4 @@ email-validator==2.1.0
 pydantic==2.5.0
 pydantic-settings==2.1.0
 gunicorn==21.2.0
+content:python-3.11.9
