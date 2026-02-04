@@ -2,7 +2,7 @@
  * Employee List Page
  * Complete employee management interface
  */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle, Avatar, AvatarFallback, Badge, Button, Card, Dialog, DialogContent, DialogFooter, DialogTitle, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Input } from '../components/ui';
 import { useFetch } from '../hooks/useFetch.js';
 import { useForm } from '../hooks/useForm.js';
@@ -40,10 +40,8 @@ const EmployeeListPage = () => {
   };
 
   // Fetch all employees
-  const { data: fetchedEmployees, loading: loadingEmployees } = useFetch(
-    () => getAllEmployees(),
-    []
-  );
+  const fetchEmployees = useCallback(() => getAllEmployees(), []);
+  const { data: fetchedEmployees, loading: loadingEmployees } = useFetch(fetchEmployees);
 
   // Function to refetch employees from API
   const refetchEmployees = async () => {

@@ -2,7 +2,7 @@
  * Attendance Tracker Page
  * Mark and view employee attendance
  */
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Alert, AlertDescription, AlertTitle, Badge, Button, Card, CardContent, CardHeader, CardTitle, Input } from '../components/ui';
 import { useFetch } from '../hooks/useFetch.js';
 import { useForm } from '../hooks/useForm.js';
@@ -22,7 +22,8 @@ const AttendanceTrackerPage = () => {
   const today = new Date().toISOString().split('T')[0];
 
   // Fetch all employees
-  const { data: employeesData } = useFetch(() => getAllEmployees(), []);
+  const fetchEmployees = useCallback(() => getAllEmployees(), []);
+  const { data: employeesData } = useFetch(fetchEmployees);
   const employees = employeesData || [];
 
   // Form hook
