@@ -10,9 +10,15 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# Import configuration
+from config import get_settings
+
 # Import database and routes
 from app.utils import connect_database, disconnect_database
 from app.routes import employee_router, attendance_router
+
+# Get settings
+settings = get_settings()
 
 # Create FastAPI application
 app = FastAPI(
@@ -24,7 +30,7 @@ app = FastAPI(
 # CORS Middleware Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (change in production)
+    allow_origins=settings.get_cors_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
