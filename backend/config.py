@@ -24,7 +24,8 @@ class Settings:
     # CORS Configuration - Restrict in production
     if ENVIRONMENT == "production":
         ALLOWED_ORIGINS = [
-            "https://your-frontend.vercel.app",  # Replace with your Vercel URL
+            "https://hrmsd.netlify.app",  # Netlify frontend
+            "http://localhost:3000",  # Local development
         ]
     else:
         ALLOWED_ORIGINS = ["*"]  # Allow all in development
