@@ -2,6 +2,7 @@
  * Dashboard Page
  * Shows system overview with statistics
  */
+import { useCallback } from 'react';
 import { AttendanceChart } from '../components/Charts/AttendanceChart.js';
 import { PerformanceScoreChart } from '../components/Charts/PerformanceChart.js';
 import { Alert, AlertDescription, AlertTitle, Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui';
@@ -11,25 +12,22 @@ import { getAllAttendance, getAllEmployees } from '../services/index.js';
 
 const DashboardPage = () => {
   
-  const { data: employees, loading: empLoading, error: empError } = useFetch(
-    async () => {
-      const result = await getAllEmployees();
-      console.log('Employees API Response:', result);
-      console.log('Employees Data:', result.data);
-      return result;
-    },
-    []
-  );
+  const fetchEmployees = useCallback(async () => {
+    const result = await getAllEmployees();
+    console.log('Employees API Response:', result);
+    console.log('Employees Data:', result.data);
+    return result;
+  }, []);
 
-  const { data: attendance, loading: attLoading, error: attError } = useFetch(
-    async () => {
-      const result = await getAllAttendance();
-      console.log('Attendance API Response:', result);
-      console.log('Attendance Data:', result.data);
-      return result;
-    },
-    []
-  );
+  const fetchAttendance = useCallback(async () => {
+    const result = await getAllAttendance();
+    console.log('Attendance API Response:', result);
+    console.log('Attendance Data:', result.data);
+    return result;
+  }, []);
+
+  const { data: employees, loading: empLoading, error: empError } = useFetch(fetchEmployees);
+  const { data: attendance, loading: attLoading, error: attError } = useFetch(fetchAttendance);
 
   const totalEmployees = employees?.length || 0;
   const totalAttendance = attendance?.length || 0;
