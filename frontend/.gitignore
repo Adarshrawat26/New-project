@@ -1,0 +1,27 @@
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build
+build/
+dist/
+.env.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
