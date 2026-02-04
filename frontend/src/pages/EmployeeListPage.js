@@ -102,7 +102,7 @@ const EmployeeListPage = () => {
         setTimeout(() => setSubmitSuccess(''), 4000);
       } else {
         // Add new employee
-        const { success, error, data } = await addEmployee(values);
+        const { success, error } = await addEmployee(values);
 
         if (!success) {
           setSubmitError(error || 'Failed to add employee');

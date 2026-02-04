@@ -2,7 +2,7 @@
  * useFetch Hook
  * Custom hook for handling API data fetching with loading and error states
  */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 /**
  * Custom hook for fetching data from API
@@ -15,6 +15,8 @@ export const useFetch = (fetchFunction, dependencies = []) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const memoizedFetchFunction = useCallback(fetchFunction, [fetchFunction]);
+
   useEffect(() => {
     let isMounted = true;
 
@@ -24,7 +26,7 @@ export const useFetch = (fetchFunction, dependencies = []) => {
         setError(null);
         console.log('🎣 useFetch: Starting fetch...');
         
-        const result = await fetchFunction();
+        const result = await memoizedFetchFunction();
         console.log('🎣 useFetch: Got result:', result);
         
         if (isMounted) {
@@ -53,7 +55,7 @@ export const useFetch = (fetchFunction, dependencies = []) => {
     return () => {
       isMounted = false;
     };
-  }, dependencies);
+  }, [memoizedFetchFunction]);
 
   return { data, loading, error };
 };
