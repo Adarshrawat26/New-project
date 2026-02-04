@@ -5,20 +5,26 @@ Entry point for HRMS Lite backend server
 from fastapi import FastAPI # pyright: ignore[reportMissingImports]
 from fastapi.middleware.cors import CORSMiddleware # pyright: ignore[reportMissingImports]
 import os
+import sys
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
+# Add parent directory to path for config import
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 # Import configuration
-from config import get_settings
+try:
+    from config import get_settings
+    settings = get_settings()
+except ImportError:
+    # Fallback if config not found
+    settings = None
 
 # Import database and routes
 from app.utils import connect_database, disconnect_database
 from app.routes import employee_router, attendance_router
-
-# Get settings
-settings = get_settings()
 
 # Create FastAPI application
 app = FastAPI(
@@ -27,10 +33,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS Middleware Configuration
+# CORS Middleware Configuration - use settings if available, otherwise allow all
+cors_origins = settings.get_cors_origins() if settings else ["*"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.get_cors_origins(),
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

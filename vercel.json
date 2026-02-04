@@ -1,8 +1,0 @@
-{
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "outputDirectory": "frontend/build",
-  "env": {
-    "REACT_APP_API_URL": "@api_url"
-  }
-}
