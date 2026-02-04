@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: hrms-api
+    runtime: python-3.11
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install --only-binary=:all: -r requirements.txt 2>/dev/null || pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.7
+      - key: PYTHONUNBUFFERED
+        value: true
+      - key: ENVIRONMENT
+        value: production
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mongodb
+          property: connectionString
