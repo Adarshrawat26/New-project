@@ -8,3 +8,4 @@ pydantic==2.6.4
 pydantic-settings==2.2.1
 gunicorn==21.2.0
 httptools==0.6.1
+content:python-3.11.9
